@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoreo de Temperatura</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+    <script src="raphael-2.1.4.min.js"></script>
+    <script src="justgage.js"></script>
+
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            font-family: Arial, sans-serif;
+            text-align: center;
+            transition: background-color 0.5s;
+        }
+        .gauge-container {
+            width: 300px;
+            margin: 20px;
+        }
+    </style>
+
+    <script>
+        var accessToken = "4575c31f1e1aa26d938b67b8e9698690af427cdc";
+        var deviceID = "0a10aced202194944a058ae4";
+        var urlC = "https://api.particle.io/v1/devices/" + deviceID + "/tempC";
+        var urlF = "https://api.particle.io/v1/devices/" + deviceID + "/tempF";
+
+        function updateGauges(dataC, dataF) {
+            if (dataC && dataF) {
+                var tempC = parseFloat(dataC.result).toFixed(2);
+                var tempF = parseFloat(dataF.result).toFixed(2);
+
+                // Cambiar color de fondo de la página basado en tempC
+                if (tempC < 20) {
+                    document.body.style.backgroundColor = "#a3c9ff"; // Azul
+                } else if (tempC >= 20 && tempC < 40) {
+                    document.body.style.backgroundColor = "#ffc107"; // Naranja
+                } else {
+                    document.body.style.backgroundColor = "#f44336"; // Rojo
+                }
+
+                // Actualizar valores en los medidores
+                gaugeC.refresh(tempC);
+                gaugeF.refresh(tempF);
+
+                setTimeout(fetchTemperature, 1000);
+            } else {
+                alert("Error al obtener los datos");
+            }
+        }
+
+        function fetchTemperature() {
+            $.when(
+                $.get(urlC, { access_token: accessToken }),
+                $.get(urlF, { access_token: accessToken })
+            ).done((dataC, dataF) => updateGauges(dataC[0], dataF[0]))
+                .fail(() => alert("Error al conectar con el dispositivo"));
+        }
+    </script>
+</head>
+
+<body onload="fetchTemperature()">
+<div class="gauge-container">
+    <h2>Temperatura (°C)</h2>
+    <div id="gaugeC" style="height:250px; width:250px;"></div>
+</div>
+<div class="gauge-container">
+    <h2>Temperatura (°F)</h2>
+    <div id="gaugeF" style="height:250px; width:250px;"></div>
+</div>
+
+<script>
+    var gaugeC = new JustGage({
+        id: "gaugeC",
+        value: 0,
+        min: 0,
+        max: 100,
+        title: "°C"
+    });
+
+    var gaugeF = new JustGage({
+        id: "gaugeF",
+        value: 0,
+        min: 0,
+        max: 100,
+        title: "°F"
+    });
+</script>
+</body>
+</html>
