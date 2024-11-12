@@ -75,6 +75,8 @@
 </head>
 
 <body onload="fetchTemperature()">
+    <button onclick="cambiarLed('on')">Encender LED</button>
+    <button onclick="cambiarLed('off')">Apagar LED</button>
 <div class="gauge-container">
     <h2>Temperatura (°C)</h2>
     <div id="gaugeC" style="height:250px; width:250px;"></div>
@@ -100,12 +102,8 @@
         max: 400,
         title: "°F"
     });
-</script>
-<button onclick="cambiarLed('on')">Encender LED</button>
-    <button onclick="cambiarLed('off')">Apagar LED</button>
 
-    <script>
-        const accessToken = '4575c31f1e1aa26d938b67b8e9698690af427cdc';
+     const accessToken = '4575c31f1e1aa26d938b67b8e9698690af427cdc';
         const deviceId = '0a10aced202194944a058ae4';
         const url = `https://api.particle.io/v1/devices/${deviceId}/led`;
 
@@ -130,7 +128,8 @@
             })
             .catch(error => console.error('Error:', error));
         }
-    </script>
     
+</script>
+        
 </body>
 </html>
