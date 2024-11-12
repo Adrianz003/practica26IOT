@@ -32,9 +32,9 @@
     <script>
         const accessToken = "4575c31f1e1aa26d938b67b8e9698690af427cdc";
         const deviceID = "0a10aced202194944a058ae4";
-        const urlC = 'https://api.particle.io/v1/devices/${deviceID}/tempC';
-        const urlF = 'https://api.particle.io/v1/devices/${deviceID}/tempF';
-        const urlLed = 'https://api.particle.io/v1/devices/${deviceID}/led';
+        const urlC = `https://api.particle.io/v1/devices/${deviceID}/tempC`;
+        const urlF = `https://api.particle.io/v1/devices/${deviceID}/tempF`;
+        const urlLed = `https://api.particle.io/v1/devices/${deviceID}/led`;
 
         function updateGauges(dataC, dataF) {
             if (dataC && dataF) {
@@ -63,12 +63,12 @@
             fetch(urlLed, {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                body: access_token=${accessToken}&params=${estado}
+                body: `access_token=${accessToken}&params=${estado}`
             })
             .then(response => response.json())
             .then(data => {
                 const message = estado === 'on' ? 'encendido' : 'apagado';
-                alert(LED ${message} correctamente.);
+                alert(`LED ${message} correctamente.`);
             })
             .catch(error => console.error('Error:', error));
         }
