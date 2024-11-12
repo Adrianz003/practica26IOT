@@ -107,7 +107,8 @@
         const deviceId = '0a10aced202194944a058ae4';
         const url = `https://api.particle.io/v1/devices/${deviceId}/led`;
 
-        function cambiarLed(estado) {
+        <div>
+            function cambiarLed(estado) {
             fetch(url, {
                 method: 'POST',
                 headers: {
@@ -128,6 +129,7 @@
             })
             .catch(error => console.error('Error:', error));
         }
+        </div>
     
 </script>
         
