@@ -21,6 +21,17 @@
             width: 300px;
             margin: 20px;
         }
+         body1 {
+            font-family: Arial, sans-serif;
+            text-align: center;
+            margin-top: 50px;
+        }
+        button {
+            padding: 10px 20px;
+            font-size: 16px;
+            margin: 5px;
+            cursor: pointer;
+        }
     </style>
 
     <script>
@@ -90,5 +101,36 @@
         title: "°F"
     });
 </script>
+<button onclick="cambiarLed('on')">Encender LED</button>
+    <button onclick="cambiarLed('off')">Apagar LED</button>
+
+    <script>
+        const accessToken = '4575c31f1e1aa26d938b67b8e9698690af427cdc';
+        const deviceId = '0a10aced202194944a058ae4';
+        const url = `https://api.particle.io/v1/devices/${deviceId}/led`;
+
+        function cambiarLed(estado) {
+            fetch(url, {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/x-www-form-urlencoded'
+                },
+                body: `access_token=${accessToken}&params=${estado}`
+            })
+            .then(response => response.json())
+            .then(data => {
+                console.log(data);
+               if (data.return_value === 1) {
+                    alert(`LED ${estado === 'on' ? 'encendido' : 'apagado'} correctamente.`);
+                }else if (data.return_value === 0) {
+                    alert(`LED ${estado === 'off' ? 'apagado' : 'encendido'} correctamente.`);
+                } else {
+                    alert('HJOLA');
+                }
+            })
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+    
 </body>
 </html>
