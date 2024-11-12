@@ -77,7 +77,9 @@
 
 <body onload="fetchTemperature()">
     <h1>Monitoreo de Temperatura y Control de LED</h1>
-    
+
+    <button onclick="cambiarLed('on')">Encender LED</button>
+    <button onclick="cambiarLed('off')">Apagar LED</button>
     <div class="gauge-container">
         <h2>Temperatura (°C)</h2>
         <div id="gaugeC" style="height:250px; width:250px;"></div>
@@ -86,10 +88,6 @@
         <h2>Temperatura (°F)</h2>
         <div id="gaugeF" style="height:250px; width:250px;"></div>
     </div>
-
-    <button onclick="cambiarLed('on')">Encender LED</button>
-    <button onclick="cambiarLed('off')">Apagar LED</button>
-
     <script>
         const gaugeC = new JustGage({ id: "gaugeC", value: 0, min: 0, max: 50, title: "°C" });
         const gaugeF = new JustGage({ id: "gaugeF", value: 0, min: 32, max: 122, title: "°F" });
